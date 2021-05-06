@@ -5,6 +5,7 @@
    :name: _karbon
    :hidden:
 
+   gettingstarted/gettingstarted
    karbon/karbon
    networking/networking
    fiesta/fiesta
@@ -14,119 +15,289 @@
 Getting Started with Kubernetes & Nutanix Karbon
 ------------------------------------------------
 
-This lab track is designed to provide you with hands-on experience in deploying and managing Kubernetes infrastructure using Nutanix Karbon and additional ecosystem solutions. The goal is to provide a more thorough understanding of core Kubernetes concepts, advantages and considerations regarding Cloud Native App infrastructure, and the value provided by Nutanix Karbon.
+This bootcamp is designed to provide you with hands-on experience in deploying and managing Kubernetes infrastructure using Nutanix Karbon and additional ecosystem solutions. The goal is to provide a more thorough understanding of core Kubernetes concepts, advantages and considerations regarding Cloud Native App infrastructure, and the value provided by Nutanix Karbon.
 
-If you are not overly familiar with Kubernetes, review the `Kubernetes and You`_ primer below. Otherwise, review `Your Environment`_ for additional information about the lab *before* starting the lab.
 
-Your Environment
-++++++++++++++++
+Agenda
+++++++
 
-To let you experience the most fun and interesting parts of the lab, as well as accommodate the large number of simultaneous users, multiple components have already been staged for you. *Let's explore!*
+- Introductions
+- Lab Setup
 
-Tools VM
-........
+Introductions
++++++++++++++
+
+- Name
+- Familiarity with Nutanix?
+
+Initial Setup
++++++++++++++
+
+- Take note of the *Passwords* being used
+- Log into your virtual desktops (connection info below)
+
+Cluster assignment
+++++++++++++++++++
+
+The instructor will tell the attendees their assigned UserXX
+
+.. note::
+  If these are Single Node Clusters (SNCs) pay close attention to networking. The SNCs are setup and configured differently compared to the three/four node clusters. Details are within the different cluster sections directly below.
+
+Environment Details
++++++++++++++++++++
+
+Nutanix Workshops are intended to be run in the Nutanix Hosted POC environment. Your cluster will be provisioned with all necessary images, networks, and VMs required to complete the exercises.
+
+Networking
+..........
+
+As both three/four node clusters and single node clusters are available in the HPOC environment, we will outline the details of each separately.
+
+Three/Four node HPOC clusters
+-----------------------------
+
+Three or four node Hosted POC clusters follow a standard naming convention:
+
+- **Cluster Name** - POC\ *XYZ*
+- **Subnet** - 10.\ **38**\ .\ *XYZ*\ .0
+- **Cluster IP** - 10.\ **38**\ .\ *XYZ*\ .37
+
+For example:
+
+- **Cluster Name** - POC055
+- **Subnet** - 10.38.55.0
+- **Cluster IP** - 10.21.55.37 for the VIP of the Cluster
+
+Throughout the Workshop there are multiple instances where you will need to substitute *XYZ* with the correct octet for your subnet, for example:
+
+.. list-table::
+  :widths: 25 75
+  :header-rows: 1
+
+  * - IP Address
+    - Description
+  * - 10.38.\ *XYZ*\ .37
+    - Nutanix Cluster Virtual IP
+  * - 10.38.\ *XYZ*\ .39
+    - **PC** VM IP, Prism Central
+  * - 10.38.\ *XYZ*\ .41
+    - **DC** VM IP, NTNXLAB.local Domain Controller
+
+Each cluster is configured with 2 VLANs which can be used for VMs:
+
+.. list-table::
+  :widths: 25 25 10 40
+  :header-rows: 1
+
+  * - Network Name
+    - Address
+    - VLAN
+    - DHCP Scope
+  * - Primary
+    - 10.38.\ *XYZ*\ .1/25
+    - 0
+    - 10.38.\ *XYZ*\ .50-10.38.\ *XYZ*\ .124
+  * - Secondary
+    - 10.38.\ *XYZ*\ .129/25
+    - *XYZ1*
+    - 10.38.\ *XYZ*\ .132-10.38.\ *XYZ*\ .253
+
+Single Node HPOC Clusters
+-------------------------
+
+For some workshops we are using Single Node Clusters (SNCs). The reason for this is to allow more people to have a dedicated cluster, but still have enough free clusters for the larger workshops, including those for customers.
+
+The network in the SNC config is using a /26 network. This splits the network address into four equal sizes that can be used for workshops. The below table describes the setup of the network in the four partitions. It provides essential information for the workshop with respect to the IP addresses and the service running at that IP address.
+
+.. list-table::
+  :widths: 15 15 15 15 40
+  :header-rows: 1
+
+  * - Partition 1
+    - Partition 2
+    - Partition 3
+    - Partition 4
+    - Service
+    - Comment
+  * - 10.38.x.1
+    - 10.38.x.65
+    - 10.38.x.129
+    - 10.38.x.193
+    - Gateway
+    -
+  * - 10.38.x.5
+    - 10.38.x.69
+    - 10.38.x.133
+    - 10.38.x.197
+    - AHV Host
+    -
+  * - 10.38.x.6
+    - 10.38.x.70
+    - 10.38.x.134
+    - 10.38.x.198
+    - CVM IP
+    -
+  * - 10.38.x.7
+    - 10.38.x.71
+    - 10.38.x.135
+    - 10.38.x.199
+    - Cluster IP
+    -
+  * - 10.38.x.8
+    - 10.38.x.72
+    - 10.38.x.136
+    - 10.38.x.200
+    - Data Services IP
+    -
+  * - 10.38.x.9
+    - 10.38.x.73
+    - 10.38.x.137
+    - 10.38.x.201
+    - Prism Central IP
+    -
+  * - 10.38.x.11
+    - 10.38.x.75
+    - 10.38.x.139
+    - 10.38.x.203
+    - AutoAD IP(DC)
+    -
+  * - 10.38.x.32-37
+    - 10.38.x.96-101
+    - 10.38.x.160-165
+    - 10.38.x.224-229
+    - Objects 1
+    -
+  * - 10.38.x.38-58
+    - 10.38.x.102-122
+    - 10.38.x.166-186
+    - 10.38.x.230-250
+    - Primary network IPAM
+    - 6 Free IPs free for static assignment
+
+Credentials
+...........
 
 .. note::
 
-   It is highly recommended to complete the entire lab within your **USER**\ *##*\ **WinToolsVM** session. Connect to a fullscreen RDP session, open your lab guide inside of the VM. You'll thank me later.
+  The *<Cluster Password>* is unique to each cluster and will be provided by the leader of the Workshop.
 
-The Windows Tools VM provides a number of different applications used across multiple Nutanix Bootcamps. Filter for your **USER**\ *##* in **Prism Central > Virtual Infrastructure > VMs** and take note of the IP of your **USER**\ *##*\ **WinToolsVM** VM, as you will be connecting to this VM via RDP (using **NTNXLAB** Administrator credentials).
+.. list-table::
+   :widths: 25 35 40
+   :header-rows: 1
 
-   .. figure:: images/3.png
+   * - Credential
+     - Username
+     - Password
+   * - Prism Element
+     - admin
+     - *<Cluster Password>*
+   * - Prism Central
+     - admin
+     - *<Cluster Password>*
+   * - Controller VM
+     - nutanix
+     - *<Cluster Password>*
+   * - Prism Central VM
+     - nutanix
+     - *<Cluster Password>*
 
-In the following labs you will use the Tools VM to access Kubernetes command line utilities, a graphical Kubernetes monitoring tool, and the **Visual Studio Code** text editor, which will be used to create and modify Kubernetes configuration files.
+Each cluster has a dedicated domain controller VM, **DC**, responsible for providing AD services for the **NTNXLAB.local** domain. The domain is populated with the following Users and Groups:
 
-Fiesta MariaDB
-..............
+.. list-table::
+   :widths: 25 35 40
+   :header-rows: 1
 
-Fiesta is an example inventory management web application used in many Nutanix labs. It is comprised of a NodeJS webserver and MariaDB database.
+   * - Group
+     - Username(s)
+     - Password
+   * - Administrators
+     - Administrator
+     - nutanix/4u
+   * - SSP Admins
+     - adminuser01-adminuser25
+     - nutanix/4u
+   * - SSP Developers
+     - devuser01-devuser25
+     - nutanix/4u
+   * - SSP Consumers
+     - consumer01-consumer25
+     - nutanix/4u
+   * - SSP Operators
+     - operator01-operator25
+     - nutanix/4u
+   * - SSP Custom
+     - custom01-custom25
+     - nutanix/4u
+   * - Bootcamp Users
+     - user01-user25
+     - nutanix/4u
 
-   .. figure:: images/fiesta.png
+.. _clusterdetails:
 
-You will deploy the web tier of the Fiesta application as a Kubernetes service during the labs. The service will need to connect to a database to provide the application data.
+Access Instructions
++++++++++++++++++++
 
-The database VM, **User**\ *##*\ **-MariaDB_VM**, has already been provisioned for you.
+The Nutanix Hosted POC environment can be accessed a number of different ways:
 
-Nutanix Objects
-...............
+Lab Access User Credentials
+...........................
 
-To conserve memory and IP resources, each cluster runs a pre-staged Nutanix Objects Object Store. During the :ref:`environment_day2` lab you will use this Object Store to provision your own S3 bucket.
+PHX Based Clusters:
+**Username:** PHX-POCxxx-User01 (up to PHX-POCxxx-User20), **Password:** *<Provided by Instructor>*
 
-Kubernetes and You
-++++++++++++++++++
+RTP Based Clusters:
+**Username:** RTP-POCxxx-User01 (up to RTP-POCxxx-User20), **Password:** *<Provided by Instructor>*
 
-What Are Containers?
-....................
+Frame VDI
+.........
 
-Containers are a standardized means of packaging software that include code and all its dependencies into an image, which allows an application to be reliably portable from one environment to another. The images run on an engine, such as Docker, which allows you to run multiple containers on the same host operating system while being completely isolated from one another.
+Login to: https://console.nutanix.com/x/labs
 
-.. figure:: images/architectures1.png
-   :align: center
+**Nutanix Employees** - Use your **NUTANIXDC** credentials
+**Non-Employees** - Use **Lab Access User** Credentials
 
-Think about your desktop. You have many applications installed on your desktop and have probably experienced issues before where you needed certain versions of Java or Internet Explorer to run one app, but a completely different version to run another.
+Parallels VDI
+.................
 
-**By allowing an application to package all the runtimes, libraries, settings, and code needed to run, containers provide many advantages compared to traditional monolithic apps - including better resource utilization, greater portability and ability to continuously deploy.**
+PHX Based Clusters Login to: https://xld-uswest1.nutanix.com
 
-So Is Kubernetes Like Docker?
-.............................
+RTP Based Clusters Login to: https://xld-useast1.nutanix.com
 
-Kubernetes is an open source platform for *managing* containers, and *uses* Docker to run the underlying containers. Kubernetes supports multiple container engines, but Docker is the most prevalent. The containers are spread across multiple hosts, which Kubernetes manages as a cluster.
+**Nutanix Employees** - Use your **NUTANIXDC** credentials
+**Non-Employees** - Use **Lab Access User** Credentials
 
-.. figure:: images/architectures2.png
-   :align: center
+Employee Pulse Secure VPN
+..........................
 
-**Think about it this way - if Docker is AHV, the platform on which you run your VMs, then Kubernetes is Prism and AOS, the products that make your VM deployment resilient and easy to manage.**
+Download the client:
 
-So What Does It Do Then?
-........................
+PHX Based Clusters Login to: https://xld-uswest1.nutanix.com
 
-`From Kubernetes.io: <https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/>`_
+RTP Based Clusters Login to: https://xld-useast1.nutanix.com
 
-*Containers are a good way to bundle and run your applications. In a production environment, you need to manage the containers that run the applications and ensure that there is no downtime. For example, if a container goes down, another container needs to start. Wouldn't it be easier if this behavior was handled by a system?*
+**Nutanix Employees** - Use your **NUTANIXDC** credentials
+**Non-Employees** - Use **Lab Access User** Credentials
 
-*That's how Kubernetes comes to the rescue! Kubernetes provides you with a framework to run distributed systems resiliently. It takes care of scaling and failover for your application, provides deployment patterns, and more.*
+Install the client.
 
-You will see multiple practical examples of this throughout the lab.
+In Pulse Secure Client, **Add** a connection:
 
-So Is Kubernetes A PaaS For Containers?
-.......................................
+For PHX:
 
-Since Kubernetes operates at the container level rather than at the hardware level, it provides some generally applicable features common to PaaS offerings, such as deployment, scaling, load balancing, and lets users integrate their logging, monitoring, and alerting solutions. However, Kubernetes is not monolithic, and these default solutions are optional and pluggable.
+- **Type** - Policy Secure (UAC) or Connection Server
+- **Name** - X-Labs - PHX
+- **Server URL** - xlv-uswest1.nutanix.com
 
-**Similar to Nutanix, Kubernetes provides the building blocks for building developer platforms, but preserves user choice and flexibility where it is important.**
+For RTP:
 
-What Basic Terms Should I Know?
-...............................
+- **Type** - Policy Secure (UAC) or Connection Server
+- **Name** - X-Labs - RTP
+- **Server URL** - xlv-useast1.nutanix.com
 
-Below are key terms you should know related to the core Kubernetes infrastructure. Other terms and concepts will be defined throughout the lab.
 
-.. figure:: images/k8s-architecture.png
-   :align: center
+Nutanix Version Info
+++++++++++++++++++++
 
-**Container**
-
-Containers are launched from container images. They run on the same machine as other containers and share the OS kernel with other containers, but run as isolated processes in userspace.
-
-**Pods**
-
-A Pod represents a single instance of an application and can contain one *or more* containers. Containers within a Pod share storage volumes and network. Typically Pods only contain a single container, unless the containers have a "tightly coupled" use case.
-
-**Service**
-
-A service defines a logical set of Pods. They can be used to define dependencies between Pods and how they are accessed. Each Service gets its own unique IP address.
-
-**Node**
-
-A node is a host, or VM, that run Kubernetes workloads. The primary types of nodes are Master, etcd, and worker.
-
-**Master Node**
-
-The **Master** node acts as the API front-end of the Kubernetes cluster and manages workloads provisioned on **Worker** nodes. In a production cluster this role is distributed across multiple nodes.
-
-**etcd Node**
-
-**etcd** is a distributed (in multi-node configurations), key-value store (database) used to store Kubernetes cluster data. This includes all of the YAML data that describes the Pods, Services, and configurations we will be deploying on the cluster during the lab.
-
-**Worker Node**
-
-The **Worker** nodes run the Pods as assigned by the **Master** nodes. The number of **Worker Nodes** can be scaled up or down to meet the needs of the Pods being deployed.
+- **AOS Version** - 5.18.x | 5.19.x
+- **PC Version** - Prism 2021.3
