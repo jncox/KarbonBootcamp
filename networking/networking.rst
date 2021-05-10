@@ -75,7 +75,7 @@ In order to provide network access to any future services you will deploy to you
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Ssl3
       [Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
       wget https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml -OutFile namespace.yaml -UseBasicParsing
-      wget https://raw.githubusercontent.com/nutanixworkshops/gts21/master/karbon/yaml%20files/001-metallb.yaml -OutFile metallb.yaml -UseBasicParsing
+      wget https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master//yaml%20files/001-metallb.yaml -OutFile metallb.yaml -UseBasicParsing
 
 #. Run the following commands to install **MetalLB**.
 
@@ -106,7 +106,45 @@ In order to provide network access to any future services you will deploy to you
          - Run ``kubectl describe pods <POD NAME> -n metallb-system``
          - Run ``kubectl logs pod <POD NAME> -n metallb-system``
 
-#. Your instructor will provide you with 2 consecutive static IP addresses to be used as your **Karbon Network for MetalLB**.
+#. See the table below for the **MetalLB START IP RANGE** and **MetalLB END IP RANGE** values that correspond with your **USER**\ *##* ID.
+
+   .. list-table::
+      :widths: 30 35 35
+      :header-rows: 1
+
+      * - **USER**\ *##*
+        - **START IP RANGE**
+        - **END IP RANGE**
+      * - USER01
+        - 10.xx.xx.135
+        - 10.xx.xx.136
+      * - USER02
+        - 10.xx.xx.137
+        - 10.xx.xx.138
+      * - USER03
+        - 10.xx.xx.139
+        - 10.xx.xx.140
+      * - USER04
+        - 10.xx.xx.141
+        - 10.xx.xx.142
+      * - USER05
+        - 10.xx.xx.143
+        - 10.xx.xx.144
+      * - USER06
+        - 10.xx.xx.145
+        - 10.xx.xx.146
+      * - USER07
+        - 10.xx.xx.147
+        - 10.xx.xx.148
+      * - USER08
+        - 10.xx.xx.149
+        - 10.xx.xx.150
+      * - USER09
+        - 10.xx.xx.151
+        - 10.xx.xx.152
+      * - USER10
+        - 10.xx.xx.153
+        - 10.xx.xx.154
 
    Before **MetalLB** can be used, we need to provide a **ConfigMap** file that defines the IP address pool available for assignment to services.
 
@@ -129,11 +167,11 @@ In order to provide network access to any future services you will deploy to you
            addresses:
            - <START IP RANGE>-<END IP RANGE>
 
-#. Replace **<START IP RANGE>-<END IP RANGE>** with *your* **Karbon Network for MetalLB** values.
+#. Replace **<START IP RANGE>-<END IP RANGE>** with *your* values. You **must** replace the *10.xx.xx* with the octets relevant to your environment (ex. 10.xx.xx.135 -> 10.42.11.135).
 
    .. raw:: html
 
-      <BR><font color="#FF0000"><strong> Make 100% sure you are using only YOUR 2 assigned IP addresses otherwise you could cause unexpected issues for others sharing your cluster. Be kind.</strong></font><BR><BR>
+      <BR><font color="#FF0000"><strong> Make 100% sure you are using only YOUR 2 assigned IP addresses otherwise you could cause unexpected issues for others sharing your cluster.</strong></font><BR><BR>
 
    .. figure:: images/36.png
 
@@ -156,9 +194,9 @@ There are `many open source and commercial Ingress Controllers <https://kubernet
 
    .. code-block:: bash
 
-      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/gts21/master/karbon/yaml%20files/01-traefik-CRD.yaml
-      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/gts21/master/karbon/yaml%20files/02-traefik-svc.yaml
-      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/gts21/master/karbon/yaml%20files/03-traefik-Deployment.yaml
+      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master//yaml%20files/01-traefik-CRD.yaml
+      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master//yaml%20files/02-traefik-svc.yaml
+      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master//yaml%20files/03-traefik-Deployment.yaml
 
    .. figure:: images/38.png
 
@@ -203,7 +241,7 @@ Kubernetes Dashboard
 
 For the installation and exposure of this dashboard we are going to use the Load Balancer so we can access it even when Traefik, the ingress controller has some issues. This is not the most secure way of working, as we can do a lot from the dashboard with respect to manipulating the environment.
 
-#. Run ``kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/gts21/master/karbon/yaml%20files/05-k8s-dashboard.yaml`` to install the **Kubernetes Dashboard**.
+#. Run ``kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master//yaml%20files/05-k8s-dashboard.yaml`` to install the **Kubernetes Dashboard**.
 
 #. Run ``kubectl get svc -n kubernetes-dashboard`` to get the **EXTERNAL-IP** value of the **kubernetes-dashboard** service.
 
