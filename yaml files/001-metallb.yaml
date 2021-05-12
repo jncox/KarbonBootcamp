@@ -313,7 +313,7 @@ spec:
             secretKeyRef:
               name: memberlist
               key: secretkey
-        image: ntnxgteworkshops/metallb-spkr:latest
+        image: ntnxgteworkshops/metallb-spkr:v0.9.5
         imagePullPolicy: Always
         name: speaker
         ports:
@@ -369,7 +369,7 @@ spec:
       - args:
         - --port=7472
         - --config=config
-        image: ntnxgteworkshops/metallb-cntrl:latest
+        image: ntnxgteworkshops/metallb-contr:v0.9.5
         imagePullPolicy: Always
         name: controller
         ports:
