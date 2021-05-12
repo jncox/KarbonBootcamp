@@ -40,7 +40,7 @@ We'll begin by creating the manifest file for the **Fiesta** web frontend and th
           spec:
             containers:
             - name: npm-fiesta
-              image: wessenstam/npm-fiesta:latest
+              image: ntnxgteworkshops/npm-fiesta:latest
               ports:
               - containerPort: 3000
       ---

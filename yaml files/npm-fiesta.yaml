@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: npm-fiesta
-        image: wessenstam/npm-fiesta:latest
+        image: ntnxgteworkshops/npm-fiesta:latest
         ports:
         - containerPort: 3000
 ---

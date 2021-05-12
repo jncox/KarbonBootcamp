@@ -75,7 +75,7 @@ In order to provide network access to any future services you will deploy to you
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Ssl3
       [Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
       wget https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml -OutFile namespace.yaml -UseBasicParsing
-      wget https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master//yaml%20files/001-metallb.yaml -OutFile metallb.yaml -UseBasicParsing
+      wget https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master/yaml%20files/001-metallb.yaml -OutFile metallb.yaml -UseBasicParsing
 
 #. Run the following commands to install **MetalLB**.
 
@@ -194,9 +194,9 @@ There are `many open source and commercial Ingress Controllers <https://kubernet
 
    .. code-block:: bash
 
-      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master//yaml%20files/01-traefik-CRD.yaml
-      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master//yaml%20files/02-traefik-svc.yaml
-      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master//yaml%20files/03-traefik-Deployment.yaml
+      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master/yaml%20files/01-traefik-CRD.yaml
+      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master/yaml%20files/02-traefik-svc.yaml
+      kubectl apply -f https://raw.githubusercontent.com/nutanixworkshops/KarbonBootcamp/master/yaml%20files/03-traefik-Deployment.yaml
 
    .. figure:: images/38.png
 
