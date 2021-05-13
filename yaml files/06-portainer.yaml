@@ -62,7 +62,7 @@ spec:
       serviceAccountName: portainer-sa-clusteradmin
       containers:
       - name: portainer
-        image: wessenstam/portainer:develop
+        image: ntnxgteworkshops/portainer:develop
         imagePullPolicy: Always
         ports:
         - containerPort: 9000

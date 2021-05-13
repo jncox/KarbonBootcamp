@@ -42,7 +42,7 @@ To get the full experience of the simplicity of using Karbon to host cloud nativ
 #. On **Name and Environment**, fill out the following fields:
 
    - **Kubernetes Cluster Name** - USER\ *##*\ -karbon (ex. USER01-karbon)
-   - **Nutanix Cluster** - *Select your HPOC cluster* (NOT AWS-Cluster)
+   - **Nutanix Cluster** - *Select your Nutanix cluster*
    - **Kubernetes Version** - *Leave Default*
    - **Host OS** - ntnx-1.0
 
@@ -52,10 +52,10 @@ To get the full experience of the simplicity of using Karbon to host cloud nativ
 
 #. On **Node Configuration**, fill out the following fields:
 
-   - **Kubernetes Node Network** - Primary
+   - **Kubernetes Node Network** - Secondary
    - **Number of Workers** - 1
 
-   .. figure:: images/7.png
+   .. figure:: images/16.png
 
 #. Click **Next**.
 
@@ -70,7 +70,7 @@ To get the full experience of the simplicity of using Karbon to host cloud nativ
 #. On **Storage Class**, fill out the following fields:
 
    - **Storage Class Name** - *Leave Default*
-   - **Nutanix Cluster** - *Select your HPOC cluster* (NOT AWS-Cluster)
+   - **Nutanix Cluster** - *Select your Nutanix cluster*
    - **Cluster Username** - admin
    - **Cluster Password** - *Your Prism admin password*
    - **Storage Container Name** - Default

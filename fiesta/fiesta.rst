@@ -40,7 +40,7 @@ We'll begin by creating the manifest file for the **Fiesta** web frontend and th
           spec:
             containers:
             - name: npm-fiesta
-              image: public.ecr.aws/n5p3f3u5/npm-fiesta:latest
+              image: ntnxgteworkshops/npm_fiesta:latest
               ports:
               - containerPort: 3000
       ---
@@ -84,7 +84,7 @@ We'll begin by creating the manifest file for the **Fiesta** web frontend and th
 
          `Label selectors <https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors>`_ are used to identify and group Kubernetes Resources. This label will be referenced by our Service so it knows which **Deployment** to execute.
 
-      - **spec > template > spec > containers > image:** public.ecr.aws/n5p3f3u5/npm-fiesta:latest
+      - **spec > template > spec > containers > image:** ntnxgteworkshops/npm_fiesta:latest
 
          This defines the repository location of the Docker container which will be downloaded as part of the Deployment. In this case, our Fiesta container is being hosted on the Amazon Elastic Container Registry.
 
